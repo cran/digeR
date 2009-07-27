@@ -13,8 +13,8 @@ It provides functions for spots correlation analysis, score plot, classification
 \tabular{ll}{
 Package: \tab digeR\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2009-06-16\cr
+Version: \tab 1.1\cr
+Date: \tab 2009-07-26\cr
 License: \tab GPL (>= 2) \cr
 LazyLoad: \tab yes\cr
 }

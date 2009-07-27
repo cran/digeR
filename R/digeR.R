@@ -6,7 +6,7 @@ function()
   cord<- matrix()           # spot coordinate data
   groupClass<- vector()     # group names
   group<- vector()          # group labels (factor)
-  dataset<- list()          # list contains pairwise expression data (only for >=3 groups)
+  dataset<- list()          # list contains pair-wise expression data (only for >=3 groups)
   dataall<- matrix()        # expData and cord
   imagepath<- ""            # image path
   input<- list()            # list contain expData, cord, groupClass, group,dataset
@@ -88,21 +88,21 @@ function()
             gmessage("The number of component should be greater than one",icon="info",cont=TRUE,handler=function(h,...){svalue(firstCom)<-2})
             proceed.pca<- FALSE
           }
-          if (proceed.pca){pairs(fit$x[,1:svalue(firstCom)],pch=16,col=c(svalue(firstColor),svalue(secondColor))[as.factor(group)])}
+          if (proceed.pca){pairs(fit$x[,1:svalue(firstCom)],pch=16,col=c(svalue(firstColor),svalue(secondColor),svalue(thirdColor))[as.factor(group)])}
         }
 
-        if (svalue(nComp)=="pairwise")
+        if (svalue(nComp)=="pair-wise")
         {
           pca.elps<- ellipse(cov(fit$x[,c(as.numeric(svalue(firstCom)),as.numeric(svalue(secondCom)))]),level = 0.95)
-          plot(fit$x[,as.numeric(svalue(firstCom))],fit$x[,as.numeric(svalue(secondCom))],col=c(svalue(firstColor),svalue(secondColor))[as.factor(
-            group)],pch=16,xlab=paste("Component",svalue(firstCom)),ylab=paste("Component",svalue(secondCom)),xlim=range(pca.elps[,1])*1.05,ylim=range(pca.elps[,2])*1.05)
+          plot(fit$x[,as.numeric(svalue(firstCom))],fit$x[,as.numeric(svalue(secondCom))],col=c(svalue(firstColor),svalue(secondColor),svalue(thirdColor))[as.factor(
+            group)],pch=16,xlab=paste("Component",svalue(firstCom)),ylab=paste("Component",svalue(secondCom)),xlim=range(pca.elps[,1])*1.15,ylim=range(pca.elps[,2])*1.15)
           points(pca.elps,type="l")
           abline(h=0)
           abline(v=0)
           if (svalue(withLabel)==TRUE)
           {
             text(fit$x[,as.numeric(svalue(firstCom))]+sum(abs(range(pca.elps[,1])))*svalue(moveLabel),
-            fit$x[,as.numeric(svalue(secondCom))],labels=rownames(m),col=c(svalue(firstColor),svalue(secondColor))[as.factor(group)],cex=0.7)
+            fit$x[,as.numeric(svalue(secondCom))],labels=rownames(m),col=c(svalue(firstColor),svalue(secondColor),svalue(thirdColor))[as.factor(group)],cex=0.7)
           }
         }
       }
@@ -121,20 +121,20 @@ function()
           }
           if (proceed.pls)
           {
-            plot(fit, plottype = "scores", comps = 1:svalue(firstCom),pch=16,col=c(svalue(firstColor),svalue(secondColor))[as.factor(group)])
+            plot(fit, plottype = "scores", comps = 1:svalue(firstCom),pch=16,col=c(svalue(firstColor),svalue(secondColor),svalue(thirdColor))[as.factor(group)])
           }
         }
-        if (svalue(nComp)=="pairwise")
+        if (svalue(nComp)=="pair-wise")
         {
           pls.elps<- ellipse(cov(fit$score[,c(as.numeric(svalue(firstCom)),as.numeric(svalue(secondCom)))]),level = 0.95)
-          plot(fit, plottype = "scores", comps = c(as.numeric(svalue(firstCom)),as.numeric(svalue(secondCom))),col=c(svalue(firstColor),svalue(secondColor))[as.factor(group)],xlim=range(pls.elps[,1]),ylim=range(pls.elps[,2]),pch=16)
+          plot(fit, plottype = "scores", comps = c(as.numeric(svalue(firstCom)),as.numeric(svalue(secondCom))),col=c(svalue(firstColor),svalue(secondColor),svalue(thirdColor))[as.factor(group)],xlim=range(pls.elps[,1])*1.15,ylim=range(pls.elps[,2])*1.15,pch=16)
           points(pls.elps,type="l")
           abline(h=0)
           abline(v=0)
           if (svalue(withLabel)==TRUE)
           {
             text(fit$score[,as.numeric(svalue(firstCom))]+sum(abs(range(pls.elps[,1])))*svalue(moveLabel),
-            fit$score[,as.numeric(svalue(secondCom))],labels=rownames(m),col=c(svalue(firstColor),svalue(secondColor))[as.factor(group)],cex=0.7)
+            fit$score[,as.numeric(svalue(secondCom))],labels=rownames(m),col=c(svalue(firstColor),svalue(secondColor),svalue(thirdColor))[as.factor(group)],cex=0.7)
           }
         }
       }
@@ -167,10 +167,10 @@ function()
     # fourth line, checkbox to comfirm if want to plot top N component
     # nCom: if want to plot multiple components, topN: top n components
   
-    nb.tab1[4,1:3]<- nComp<- gradio(c("Top N Component","pairwise"),horizontal= TRUE,cont=nb.tab1,handler=function(h,...)
+    nb.tab1[4,1:3]<- nComp<- gradio(c("Top N Component","pair-wise"),horizontal= TRUE,cont=nb.tab1,handler=function(h,...)
       {
         if(svalue(nComp)=="Top N Component") {enabled(secondCom)<- FALSE;enabled(withLabel)<- FALSE}
-        if(svalue(nComp)=="pairwise") {enabled(secondCom)<- TRUE;enabled(withLabel)<- TRUE}
+        if(svalue(nComp)=="pair-wise") {enabled(secondCom)<- TRUE;enabled(withLabel)<- TRUE}
       })
   
     nb.tab1[5,1]<- glabel("Component 1")
@@ -313,14 +313,14 @@ function()
             as.numeric(predict(fit,newdata=x)[subt])
           }
         }
-      ### LOO and N fold cv
-        if (svalue(classMethod)== "leave one out cv"|svalue(classMethod)== "N fold cv")
+      ### LOO and N-fold cv
+        if (svalue(classMethod)== "leave-one-out cv"|svalue(classMethod)== "N-fold cv")
         {
-          if (svalue(classMethod)== "leave one out cv")
+          if (svalue(classMethod)== "leave-one-out cv")
           {
             ngroup<- length(label)
           }
-          if (svalue(classMethod)== "N fold cv")
+          if (svalue(classMethod)== "N-fold cv")
           {
             ngroup<- svalue(nFold)
           }
@@ -376,8 +376,8 @@ function()
     pls.arg<- glayout(label="PLSR",cont=arg.nb)
     pls.arg[1,1]<- glabel("ncomp")
     pls.arg[1,2:4]<- pls.nComp<- gspinbutton(from =1,to = length(group)-1,by=1,value= 3,editable=FALSE)
-    # N fold cv
-    foldcv.arg<- glayout(label="N fold CV",cont=arg.nb)
+    # N-fold cv
+    foldcv.arg<- glayout(label="N-fold CV",cont=arg.nb)
     foldcv.arg[1,1]<- nFold<- gspinbutton(from =1,to = length(group),by=1,value= 5,editable=FALSE)
     foldcv.arg[1,2]<- glabel("Fold cross validation")
     
@@ -423,7 +423,7 @@ function()
     enabled(loadFeature.gb)<- FALSE
     enabled(feature.gdrop)<- FALSE
     
-    nb.tab2[12,1]<- classMethod<- gdroplist(c("leave one out cv","N fold cv","bootstrap"),cont=nb.tab2,handler=
+    nb.tab2[12,1]<- classMethod<- gdroplist(c("leave-one-out cv","N-fold cv","bootstrap"),cont=nb.tab2,handler=
       function(h,..)
       {
         if (svalue(classMethod,index=TRUE)==2) {svalue(arg.nb)<- 4}
@@ -451,11 +451,11 @@ function()
     
       if (proceed)
       {
-        if (svalue(classMethod)=="leave one out cv")
+        if (svalue(classMethod)=="leave-one-out cv")
         {
           cv.method<- svalue(classMethod)
         }
-        if (svalue(classMethod)=="N fold cv")
+        if (svalue(classMethod)=="N-fold cv")
         {
           cv.method<- paste(svalue(nFold),"fold cv",sep=" ")
         }
@@ -549,8 +549,8 @@ function()
     plotCor <- function(...)
     {
       i<- svalue(gr,index=TRUE)
-      if (i ==1){cormat<- cor(expData)}
-      if (i >1){cormat<- cor(dataset[[i-1]])}
+      if (i ==1){cormat<- cor(expData, method = c("pearson", "kendall", "spearman")[svalue(corrtype.gdrop,index=TRUE)])}
+      if (i >1){cormat<- cor(dataset[[i-1]], method = c("pearson", "kendall", "spearman")[svalue(corrtype.gdrop,index=TRUE)])}
       if (svalue(useFeature)){j<- as.numeric(svalue(spot.gdrop))}
       if (!svalue(useFeature)){j<- as.numeric(svalue(glist))}
       par(mar=c(3.5,1,3.5,1))
@@ -616,7 +616,8 @@ function()
     enabled(loadFeature.gb)<- FALSE
     enabled(feature.gdrop)<- FALSE
     enabled(spot.gdrop)<- FALSE
-     
+    
+    corrtype.gdrop<- gdroplist(c("pearson", "kendall", "spearman"),cont=tmp,selected = 1) 
     gb<- gbutton("Show the correlation",cont=tmp,handler=plotCor)
     gn<- gtext("",cont=tmp,editable=TRUE,horizontal=TRUE)
     
@@ -683,7 +684,14 @@ function()
       
       m.train<- data.frame(m,class=as.factor(l))
       print(svalue(rf.ntree))
-      m.rf<- randomForest(class ~.,data = m.train,ntree =as.numeric(svalue(rf.ntree)))
+      if (svalue(mtry.change)==FALSE)
+      {
+        m.rf<- randomForest(class ~.,data = m.train,ntree =as.numeric(svalue(rf.ntree)))
+      }
+      if (svalue(mtry.change)==TRUE)
+      {
+        m.rf<- randomForest(class ~.,data = m.train,ntree =as.numeric(svalue(rf.ntree)),mtry=as.numeric(svalue(rf.mtry)))
+      }
       print(m.rf)
       par(ask=TRUE)
       plot(m.rf,main="Error rate")
@@ -775,6 +783,12 @@ function()
     rf.arg[1,2]<- rf.ntree<- gdroplist(c("100","200","300"),editable=TRUE)
     rf.arg[2,1]<- glabel("Top")
     rf.arg[2,2]<- rf.nimp<- gdroplist(c("10","20","30"),selected=2,editable=TRUE)
+    rf.arg[3,1]<- mtry.change<- gcheckbox("mtry",handler= function(h,..){
+      if (svalue(mtry.change)==TRUE){enabled(rf.mtry)<- TRUE}
+      if (svalue(mtry.change)==FALSE){enabled(rf.mtry)<- FALSE}
+      })
+    rf.arg[3,2]<- rf.mtry<- gdroplist(c("5","10","15"),selected=1,editable=TRUE) 
+    enabled(rf.mtry)<- FALSE
     
     # Adaboost arguments
     ada.arg<- glayout(label="Adaboost",cont=arg.nb)
@@ -864,7 +878,7 @@ function()
   ####################################################################################
   # function for doing cross validation, bootstrap                                   #
   ####################################################################################
-  # x= data matrix, y=label,theta.fit= fit method,theta.predict= predict method, ngroup= N fold crossvalidation
+  # x= data matrix, y=label,theta.fit= fit method,theta.predict= predict method, ngroup= N-fold crossvalidation
   crossvalid<- function(x,y,theta.fit,theta.predict,...,ngroup)  
   {
     n <- length(y)

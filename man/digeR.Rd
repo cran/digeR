@@ -23,6 +23,7 @@ digeR()
     \tab Spot List				                  \tab  select the spot to look at   \cr
     \tab Selected feature		                \tab	upload the feature list from feature selection  \cr
     \tab Load features				              \tab  upload the feature list from an saved R workspace \cr
+    \tab Pearson, Kendall, Spearman         \tab  type of correlation coefficient to be calculated:	"pearson" (default), "kendall", or "spearman"\cr
     \tab Show the correlation	              \tab  plot the spots with required correlation \cr
     \tab Correlation Coefficiency	          \tab	change the coefficiency threshold \cr
     \tab Show spot ID			                  \tab	plot spots with ID \cr
@@ -31,7 +32,7 @@ digeR()
     \tab \strong{Score Plot}                         \tab PCA and PLSR score plot \cr
     \tab Plot Type						             \tab select either PCA or PLSR score plot \cr
     \tab Top N component				           \tab plot score plot with top N components \cr
-    \tab Pairwise							           \tab plot selected 2 components \cr
+    \tab Pair-wise							           \tab plot selected 2 components \cr
     \tab Component 1 and 2				        \tab two components in the pairwise plot \cr
     \tab Group							              \tab set the color for the two groups \cr
     \tab With label						          \tab plot the sample ID  \cr
@@ -48,12 +49,12 @@ digeR()
     \tab "mve" 							             \tab to use cov.mve \cr
     \tab "t" 		 						            \tab robust estimates based on a t distribution \cr
     \tab nComp							              \tab number of component for fitting PCR or PLSR \cr
-    \tab N fold CV						            \tab number of fold in the cross validation  \cr
+    \tab N-fold CV						            \tab number of fold in the cross validation  \cr
     \tab nboot							              \tab number of bootstrap in the classification  \cr
     \tab Selected feature					       \tab upload the feature list from feature selection \cr
     \tab Load features					          \tab upload the feature list from an saved R workspace \cr
-    \tab leave one out cv					        \tab classification with leave one out cross validation \cr
-    \tab N fold cv						            \tab classification with n fold cross validation \cr
+    \tab leave-one-out cv					        \tab classification with leave-one-out cross validation \cr
+    \tab N-fold cv						            \tab classification with n-fold cross validation \cr
     \tab Bootstrap						            \tab classification with bootstrap \cr
     \tab Run classification				      \tab press button to do the classification  \cr
     \tab Save							              \tab save the prediction results into an R workspace  \cr
@@ -69,6 +70,7 @@ digeR()
     \tab Ncomp							              \tab same as ncomp in Classification  \cr
     \tab Top								              \tab select the top n variables from the feature selection \cr
     \tab Ntree							              \tab number of trees to grow in randomForest \cr
+    \tab Mtry                             \tab Number of variables randomly sampled as candidates at each split. Default sqrt(number of variables) \cr
     \tab Mfinal	                        \tab the number of iterations for which boosting is run or the number of trees to use \cr
     \tab Run feature selection				    \tab press to start feature selection  \cr
     \tab Select featuers					        \tab store the selected features in the selected items \cr
