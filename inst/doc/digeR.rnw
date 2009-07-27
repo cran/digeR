@@ -1,0 +1,9 @@
+\documentclass{article}                         
+
+%% \VignetteIndexEntry{digeR Manual}
+
+
+\begin{document}
+ 
+\end{document}
+

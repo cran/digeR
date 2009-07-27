@@ -86,7 +86,6 @@ digeR()
     \tab Calculate 	                    \tab calculate the one being left blank (either power, sample size or significant level) \cr
 }
 
-\strong{The details can be found in digeR manual}
 }
 
 \author{
