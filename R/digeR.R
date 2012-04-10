@@ -85,7 +85,7 @@ function()
           proceed.pca<- TRUE
           if(svalue(firstCom)==1)
           {
-            gmessage("The number of component should be greater than one",icon="info",cont=TRUE,handler=function(h,...){svalue(firstCom)<-2})
+            gmessage("The number of component should be greater than one",icon="info",container=TRUE,handler=function(h,...){svalue(firstCom)<-2})
             proceed.pca<- FALSE
           }
           if (proceed.pca){pairs(fit$x[,1:svalue(firstCom)],pch=16,col=c(svalue(firstColor),svalue(secondColor),svalue(thirdColor))[as.factor(group)])}
@@ -116,7 +116,7 @@ function()
           proceed.pls<- TRUE
           if(svalue(firstCom)==1)
           {
-            gmessage("The number of component should be greater than one",icon="info",cont=TRUE,handler=function(h,...){svalue(firstCom)<-2})
+            gmessage("The number of component should be greater than one",icon="info",container=TRUE,handler=function(h,...){svalue(firstCom)<-2})
             proceed.pls<- FALSE
           }
           if (proceed.pls)
@@ -144,17 +144,17 @@ function()
     gw.plot<<- gwindow("digeR-Score Plot")
 
     # split the window into left and right part
-    pg <- gpanedgroup(cont = gw.plot, horizontal=TRUE)
+    pg <- gpanedgroup(container = gw.plot, horizontal=TRUE)
 
     # define the left widgets group
-    lg <- ggroup(horizontal = FALSE, cont = pg)
+    lg <- ggroup(horizontal = FALSE, container = pg)
 
     # notebook on left hand side for seting the parameters for plot and classification
     # first page for plotting
-    nb <- gnotebook(cont = lg)
+    nb <- gnotebook(container = lg)
 
     # setup the layout for ploting parameters
-    nb.tab1<- glayout(label=" Score Plot ",cont=nb)
+    nb.tab1<- glayout(label=" Score Plot ",container=nb)
   
     # first line: select plot type
     method<- c("PCA","PLSR")
@@ -162,21 +162,21 @@ function()
     nb.tab1[1,2] <- plotType<- gdroplist(method,selected= (1:length(method))[(method==selected)],editable=FALSE)
   
     # second line-- separator
-    nb.tab1[2,1:4] <- gseparator(cont=nb.tab1)
+    nb.tab1[2,1:4] <- gseparator(container=nb.tab1)
   
     # fourth line, checkbox to comfirm if want to plot top N component
     # nCom: if want to plot multiple components, topN: top n components
   
-    nb.tab1[4,1:3]<- nComp<- gradio(c("Top N Component","pair-wise"),horizontal= TRUE,cont=nb.tab1,handler=function(h,...)
+    nb.tab1[4,1:3]<- nComp<- gradio(c("Top N Component","pair-wise"),horizontal= TRUE,container=nb.tab1,handler=function(h,...)
       {
         if(svalue(nComp)=="Top N Component") {enabled(secondCom)<- FALSE;enabled(withLabel)<- FALSE}
         if(svalue(nComp)=="pair-wise") {enabled(secondCom)<- TRUE;enabled(withLabel)<- TRUE}
       })
   
     nb.tab1[5,1]<- glabel("Component 1")
-    nb.tab1[5,2]<- firstCom<- gdroplist(1:10,editable=TRUE,cont=nb.tab1)
+    nb.tab1[5,2]<- firstCom<- gdroplist(1:10,editable=TRUE,container=nb.tab1)
     nb.tab1[5,3]<- glabel("Component 2")
-    nb.tab1[5,4]<- secondCom<- gdroplist(1:10,editable=TRUE,cont=nb.tab1)
+    nb.tab1[5,4]<- secondCom<- gdroplist(1:10,editable=TRUE,container=nb.tab1)
     enabled(secondCom)<- FALSE
   
     # select the color for two components
@@ -196,13 +196,13 @@ function()
       enabled(thirdColor)<- TRUE
     }
   
-    nb.tab1[8,1] <- withLabel<- gcheckbox("With label",cont=nb.tab1,handler=ScorePlot)
+    nb.tab1[8,1] <- withLabel<- gcheckbox("With label",container=nb.tab1,handler=ScorePlot)
     nb.tab1[8,2] <- moveLabel<- gslider(from=-0.1,to=0.1,by=0.01,value=0,handler=ScorePlot)
     enabled(withLabel)<- FALSE
     nb.tab1[8,3]<- glabel("scaling")
     nb.tab1[8,4]<- scaling<- gdroplist(c("No scaling","Center only","Center and Scaling","Paretol Scaling"),editable=FALSE)
-    nb.tab1[10,1:4] <- gseparator(cont=nb.tab1)
-    nb.tab1[11,3]<- gbutton("Plot    ",cont=nb.tab1,handler=ScorePlot)
+    nb.tab1[10,1:4] <- gseparator(container=nb.tab1)
+    nb.tab1[11,3]<- gbutton("Plot    ",container=nb.tab1,handler=ScorePlot)
   }
   ####################################################################################
   # function for boostrap classification used in classification function             #
@@ -340,17 +340,17 @@ function()
     gw.class<<- gwindow("digeR-Classification")
     
     # split the window into left and right part
-    pg <- gpanedgroup(cont = gw.class, horizontal=TRUE)
+    pg <- gpanedgroup(container = gw.class, horizontal=TRUE)
     
     # define the left widgets group
-    lg <- ggroup(horizontal = FALSE, cont = pg)
+    lg <- ggroup(horizontal = FALSE, container = pg)
     
     # notebook on left hand side for seting the parameters for plot and classification
     # first page for plotting
-    nb <- gnotebook(cont = lg)
+    nb <- gnotebook(container = lg)
     
     # Classification page
-    nb.tab2<- glayout(label="Classification",cont=nb)
+    nb.tab2<- glayout(label="Classification",container=nb)
     nb.tab2[1,1,anchor=c(1,0)]= "Methods"
     method<- c("LDA","PCR","PLSR","Logistic_reg.","SVM")
     nb.tab2[1,2:4] <- methodSelect<- gdroplist(method,selected=(1:length(method))[(method==selected)],editable=FALSE,handler=
@@ -363,26 +363,26 @@ function()
     nb.tab2[2,1,anchor=c(1,0)] <- "Scaling"
     nb.tab2[2,2:4]<- scaleSelect<- gdroplist(c("None","Center only","Center and Scaling","Paretol Scaling"),editable=FALSE)
     nb.tab2[3:9,1:4]<- arg.fr<- gframe("Arguments")
-    arg.nb<- gnotebook(cont= arg.fr,closebuttons=FALSE)
+    arg.nb<- gnotebook(container= arg.fr,closebuttons=FALSE)
     # LDA arguments
-    lda.arg<- glayout(label="LDA",cont=arg.nb)
+    lda.arg<- glayout(label="LDA",container=arg.nb)
     lda.arg[1,1]<- glabel("Methods")
     lda.arg[1,2:3]<-  lda.method<-gdroplist(c("moment","mle","mve","t"))
     # PCR arguments
-    pcr.arg<- glayout(label="PCR",cont=arg.nb)
+    pcr.arg<- glayout(label="PCR",container=arg.nb)
     pcr.arg[1,1]<- glabel("ncomp")
     pcr.arg[1,2:4]<- pcr.nComp<- gspinbutton(from =1,to = length(group)-1,by=1,value= 3,editable=FALSE)
     # PLS arguments
-    pls.arg<- glayout(label="PLSR",cont=arg.nb)
+    pls.arg<- glayout(label="PLSR",container=arg.nb)
     pls.arg[1,1]<- glabel("ncomp")
     pls.arg[1,2:4]<- pls.nComp<- gspinbutton(from =1,to = length(group)-1,by=1,value= 3,editable=FALSE)
     # N-fold cv
-    foldcv.arg<- glayout(label="N-fold CV",cont=arg.nb)
+    foldcv.arg<- glayout(label="N-fold CV",container=arg.nb)
     foldcv.arg[1,1]<- nFold<- gspinbutton(from =1,to = length(group),by=1,value= 5,editable=FALSE)
     foldcv.arg[1,2]<- glabel("Fold cross validation")
     
     # bootstrap
-    btrap.arg<- glayout(label="bootstrap",cont=arg.nb)
+    btrap.arg<- glayout(label="bootstrap",container=arg.nb)
     btrap.arg[1,1]<- glabel("nboot = ")
     btrap.arg[1,2]<- nboot<- gedit(text= "10",coerce.with= as.numeric,handler=function(h,...)
       {
@@ -423,7 +423,7 @@ function()
     enabled(loadFeature.gb)<- FALSE
     enabled(feature.gdrop)<- FALSE
     
-    nb.tab2[12,1]<- classMethod<- gdroplist(c("leave-one-out cv","N-fold cv","bootstrap"),cont=nb.tab2,handler=
+    nb.tab2[12,1]<- classMethod<- gdroplist(c("leave-one-out cv","N-fold cv","bootstrap"),container=nb.tab2,handler=
       function(h,..)
       {
         if (svalue(classMethod,index=TRUE)==2) {svalue(arg.nb)<- 4}
@@ -433,7 +433,7 @@ function()
     classResult<- list()
     length(classResult)<- 10
     
-    nb.tab2[12,2]<- classbutton<- gbutton("Run Classfication",cont=nb.tab2,handler=
+    nb.tab2[12,2]<- classbutton<- gbutton("Run Classfication",container=nb.tab2,handler=
     function(h,...)
     {
       proceed<- TRUE
@@ -490,13 +490,13 @@ function()
       RDataPath<- paste(selectPath,".RData",sep="")
       save(classResult,file=RDataPath)
     })
-    nb.tab2[14,1:4] <- gseparator(cont=nb.tab2)
+    nb.tab2[14,1:4] <- gseparator(container=nb.tab2)
     nb.tab2[1,5]<- glabel("Prediction results")
     pred<-  paste("results_",1:10)
-    nb.tab2[2:10,5:7]<- res.pred<- gtable(pred,cont=nb.tab2,multiple=TRUE)
+    nb.tab2[2:10,5:7]<- res.pred<- gtable(pred,container=nb.tab2,multiple=TRUE)
     nb.tab2[15,1]<- glabel("Legend")
     nb.tab2[15,2]<- gleg<- gdroplist(c("bottomright","bottomleft","topright","topleft","left","right","top","bottom"))
-    nb.tab2[15,3]<- gbutton("ROC curve",cont=nb.tab2,handler=function(h,...)
+    nb.tab2[15,3]<- gbutton("ROC curve",container=nb.tab2,handler=function(h,...)
     {
       proceed<- TRUE
       if (length(svalue(res.pred,index=TRUE))==0)
@@ -571,24 +571,24 @@ function()
    
     # GUI component
     gw.correlation <<- gwindow("digeR-Spots Correlation")
-    BigGroup<- ggroup(cont= gw.correlation)
-    leftpane <- ggroup(horizontal=FALSE, cont=BigGroup)
+    BigGroup<- ggroup(container= gw.correlation)
+    leftpane <- ggroup(horizontal=FALSE, container=BigGroup)
     
     # The first frame for choose the dataset
     tmp <- gframe("Dataset", container=leftpane, expand= TRUE)
-    gr <- gradio(c("All",groupClass), horizontal= FALSE, cont=tmp, handler= plotCor)
+    gr <- gradio(c("All",groupClass), horizontal= FALSE, container=tmp, handler= plotCor)
     
     # The second frame for choose the spot list
     tmp <- gframe("Spot List", container=leftpane, horizontal=FALSE, expand=TRUE)
-    glist <- gspinbutton(from=1,to= ncol(expData),by=1,cont=tmp,editable=TRUE)
+    glist <- gspinbutton(from=1,to= ncol(expData),by=1,container=tmp,editable=TRUE)
     featureList<- c()
     feature.upload<- list()
-    useFeature<- gcheckbox("Selected feature",cont=tmp,handler= function(h,...)
+    useFeature<- gcheckbox("Selected feature",container=tmp,handler= function(h,...)
     {
       if (svalue(useFeature)){enabled(loadFeature.gb)<- TRUE;enabled(feature.gdrop)<- TRUE;enabled(spot.gdrop)<-TRUE;enabled(glist)<- FALSE}
       if (!svalue(useFeature)){enabled(loadFeature.gb)<- FALSE;enabled(feature.gdrop)<- FALSE;enabled(spot.gdrop)<-FALSE;enabled(glist)<- TRUE}
     })
-    loadFeature.gb<- gbutton("load features",cont=tmp,handler=function(h,...)
+    loadFeature.gb<- gbutton("load features",container=tmp,handler=function(h,...)
     {
       fpath<- gfile("Select the RData file containing features",filter = list(".RData" = list(patterns = c("*.RData"))),type="open")
       if(fpath!="")
@@ -608,27 +608,27 @@ function()
       }
     })
     
-    feature.gdrop<- gdroplist(featureList,cont=tmp,handler=function(h,...)
+    feature.gdrop<- gdroplist(featureList,container=tmp,handler=function(h,...)
     {
       spot.gdrop[]<- feature.upload[[svalue(feature.gdrop,index=TRUE)]]
     })
-    spot.gdrop<- gdroplist(" ",cont=tmp)
+    spot.gdrop<- gdroplist(" ",container=tmp)
     enabled(loadFeature.gb)<- FALSE
     enabled(feature.gdrop)<- FALSE
     enabled(spot.gdrop)<- FALSE
     
-    corrtype.gdrop<- gdroplist(c("pearson", "kendall", "spearman"),cont=tmp,selected = 1) 
-    gb<- gbutton("Show the correlation",cont=tmp,handler=plotCor)
-    gn<- gtext("",cont=tmp,editable=TRUE,horizontal=TRUE)
+    corrtype.gdrop<- gdroplist(c("pearson", "kendall", "spearman"),container=tmp,selected = 1) 
+    gb<- gbutton("Show the correlation",container=tmp,handler=plotCor)
+    gn<- gtext("",container=tmp,editable=TRUE,horizontal=TRUE)
     
     glabel<- glabel("Correlation Coefficient",con= leftpane)
-    gsl <- gslider(from = 0.01, to= 0.99, by=0.01, value = 0, cont = leftpane, handler = plotCor)
+    gsl <- gslider(from = 0.01, to= 0.99, by=0.01, value = 0, container = leftpane, handler = plotCor)
     gch<- gcheckbox("Show Spots ID", container= leftpane,handler= plotCor)
-    g.showNo<- gcheckbox("Show Number",cont= leftpane,handler= plotCor)
+    g.showNo<- gcheckbox("Show Number",container= leftpane,handler= plotCor)
     add(BigGroup, ggraphics())
     if (imagePath!="")
     {
-      gimage(imagePath,cont=BigGroup)
+      gimage(imagePath,container=BigGroup)
     }
   }
   ####################################################################################
@@ -732,17 +732,17 @@ function()
     gw.fs<<- gwindow("digeR-Feature Selection")
     
     # split the window into left and right part
-    pg <- gpanedgroup(cont = gw.fs, horizontal=TRUE)
+    pg <- gpanedgroup(container = gw.fs, horizontal=TRUE)
     
     # define the left widgets group
-    lg <- ggroup(horizontal = FALSE, cont = pg)
+    lg <- ggroup(horizontal = FALSE, container = pg)
     
     # notebook on left hand side for seting the parameters for plot and classification
     # first page for plotting
-    nb <- gnotebook(cont = lg)
+    nb <- gnotebook(container = lg)
     ###########################################################
     
-    nb.tab2<- glayout(label="Feature Selection",cont=nb)
+    nb.tab2<- glayout(label="Feature Selection",container=nb)
     # select method
     nb.tab2[1,1,anchor=c(1,0)]<- "Methods"
     method<- c("LDA","PLSR","RandomForest","Adaboost")
@@ -761,24 +761,24 @@ function()
     
     # Arguments
     nb.tab2[5:12,1:4]<- arg.fr<- gframe("Arguments")
-    arg.nb<- gnotebook(cont= arg.fr,closebuttons=FALSE)
+    arg.nb<- gnotebook(container= arg.fr,closebuttons=FALSE)
     
     # LDA arguments
-    lda.arg<- glayout(label="LDA",cont=arg.nb)
+    lda.arg<- glayout(label="LDA",container=arg.nb)
     lda.arg[1,1]<- glabel("Methods")
     lda.arg[1,2:3]<-  lda.method<-gdroplist(c("moment","mle","mve","t"))
     lda.arg[2,1]<- glabel("Top")
     lda.arg[2,2:4]<- lda.n<- gdroplist(c("10","20","30"),selected=2,editable=TRUE)
     
     # PLSR arguments
-    pls.arg<- glayout(label="PLSR",cont=arg.nb)
+    pls.arg<- glayout(label="PLSR",container=arg.nb)
     pls.arg[1,1]<- glabel("ncomp")
     pls.arg[1,2:4]<- pls.nComp<- gdroplist(c(1:(nrow(expData)-1)))
     pls.arg[2,1]<- glabel("Top")
     pls.arg[2,2:4]<- pls.n<- gdroplist(c("10","20","30"),selected=2,editable=TRUE)
     
     # RandomForest arguments
-    rf.arg<- glayout(label="RandomForest",cont=arg.nb)
+    rf.arg<- glayout(label="RandomForest",container=arg.nb)
     rf.arg[1,1]<- glabel("ntree")
     rf.arg[1,2]<- rf.ntree<- gdroplist(c("100","200","300"),editable=TRUE)
     rf.arg[2,1]<- glabel("Top")
@@ -791,7 +791,7 @@ function()
     enabled(rf.mtry)<- FALSE
     
     # Adaboost arguments
-    ada.arg<- glayout(label="Adaboost",cont=arg.nb)
+    ada.arg<- glayout(label="Adaboost",container=arg.nb)
     ada.arg[1,1]<- glabel("mfinal")
     ada.arg[1,2]<- ada.mf<- gdroplist(c("100","200","300"),editable=TRUE)
     ada.arg[2,1]<- glabel("Top")
@@ -799,8 +799,8 @@ function()
     svalue(arg.nb)<- svalue(methodSelect,index=TRUE)
     
     feature<- list()
-    nb.tab2[13,1:5] <- gseparator(cont=nb.tab2)
-    nb.tab2[14,3]<- fs.button<- gbutton("Run feature selection",cont=nb.tab2,handler= function(h,...)
+    nb.tab2[13,1:5] <- gseparator(container=nb.tab2)
+    nb.tab2[14,3]<- fs.button<- gbutton("Run feature selection",container=nb.tab2,handler= function(h,...)
     {
       proceed<- TRUE
       if (length(svalue(res.pred))==0)
@@ -827,7 +827,7 @@ function()
       
     nb.tab2[1,5]<- glabel("Selected features")
     pred<-  paste("results_",1:10)
-    nb.tab2[2:12,5]<- res.pred<- gtable(pred,cont=nb.tab2,multiple=TRUE)
+    nb.tab2[2:12,5]<- res.pred<- gtable(pred,container=nb.tab2,multiple=TRUE)
     nb.tab2[14,5]<- gbutton("Save features",handler=function(h,...)
     {
       proceed.output<- TRUE
@@ -942,7 +942,7 @@ function()
       proceed<-TRUE
       if (length(na.no)!=1)
       {
-        gmessage("Please indicate the one to be calculated and leave it blank",icon="error",cont=TRUE,
+        gmessage("Please indicate the one to be calculated and leave it blank",icon="error",container=TRUE,
           handler=function(h,...){svalue(sampleSize)<-"";svalue(sigLev)<-"0.05";svalue(pow)<-"0.8"})
         proceed<- FALSE
       }
@@ -1001,10 +1001,10 @@ function()
 
     # GUI  component
     gw.power<<- gwindow("digeR-Sample size")
-    pg <- gpanedgroup(cont = gw.power, horizontal=TRUE)
-    lg <- ggroup(horizontal = FALSE, cont = pg)
-    nb <- gnotebook(cont = lg)
-    nb.tab2<- glayout(label="Power Analysis",cont=nb)
+    pg <- gpanedgroup(container = gw.power, horizontal=TRUE)
+    lg <- ggroup(horizontal = FALSE, container = pg)
+    nb <- gnotebook(container = lg)
+    nb.tab2<- glayout(label="Power Analysis",container=nb)
     
     nb.tab2[1,1:2]<- calType<- gradio(c("Single spots","Gel"),handler=function(h,...)
       {
@@ -1015,7 +1015,7 @@ function()
     nb.tab2[1,5]<- spotNo<- gspinbutton(from=1,to=ncol(expData),by=1,handler=function(h,...){svalue(sampleSize)<- ""})
     
     nb.tab2[2:6,1:4]<- arg.fr<- gframe("Arguments")
-    arg.set<- glayout(label="parameters",cont=arg.fr)
+    arg.set<- glayout(label="parameters",container=arg.fr)
     arg.set[1,1]<- glabel("Effect size")
     arg.set[1,2]<- effectSize<- gedit()
     enabled(effectSize)<- FALSE
@@ -1049,7 +1049,7 @@ function()
   # digeR GUI component                                                              # 
   ####################################################################################
   
-  digeR.menu<- gwindow("digeR",cont=TRUE)
+  digeR.menu<- gwindow("digeR",container=TRUE)
   addHandlerDestroy(digeR.menu,handler=function(h,...)
     {
       dispose(gw.plot)
@@ -1066,7 +1066,7 @@ function()
   gw.power<- gwindow(visible=FALSE)
   
   
-  gimage(paste(file.path(.path.package(package="digeR")[1]),"/data/cover.jpg",sep=""),cont= digeR.menu)
+  gimage(paste(file.path(.path.package(package="digeR")[1]),"/extdata/cover.jpg",sep=""),container= digeR.menu)
   mblst = list(
       File=list(
         Open = list(handler=gf.open,icon="open"),
@@ -1117,6 +1117,6 @@ function()
           {if (length(input)==0){gmessage("Please upload the data first",icon="info")}  
           else{power.call(input)}}))
   )
-  menu<- gmenu(mblst, cont = digeR.menu)
+  menu<- gmenu(mblst, container = digeR.menu)
 }
 

@@ -1,0 +1,14 @@
+9558e5dca2b32e9f1b7f8cc0547eff5a *DESCRIPTION
+a5695b67772095815448550714d753e3 *NAMESPACE
+e1d274b841e058f4223daf7f0802efe3 *R/digeR.R
+1e6a2c37884144772d87625f219d2a7c *data/prostate.rda
+f7b560bd589959eccf1ea56f2de3830e *inst/doc/digeR-package.pdf
+534e9405cf6de59b04bf6a760ed88af8 *inst/doc/digeR-package.rnw
+56a4d26937e5f1618a3c727ee36424cc *inst/doc/digeR.pdf
+68eff36dead5a8bca570c26f7e749434 *inst/doc/digeR.rnw
+859a9d773f746253e4c0e9a5916467a7 *inst/extdata/cover.jpg
+9417b49e83920fb3fa86c7f521143ee6 *inst/extdata/gel.jpg
+3df2d6a98ae0f05dd58a1860d7726ac0 *inst/extdata/prostate.txt
+8b6429417e08b459fea80dbc148a743b *man/digeR-package.Rd
+0b3ffb985f45f505764682cca803ca3e *man/digeR.Rd
+2ae6533f150e70d225bef8e6d6d31db0 *man/prostate.Rd

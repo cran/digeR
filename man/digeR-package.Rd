@@ -7,14 +7,14 @@ digeR Graphical User Interface
 }
 \description{
 digeR is an easy to use GUI tool for 2D gel or 2D DIGE data analysis. \cr 
-It provides functions for spots correlation analysis, score plot, classification, feature selection and power anlaysis
+It provides functions for spots correlation analysis, score plot, classification, feature selection and power analysis
 }
 \details{
 \tabular{ll}{
 Package: \tab digeR\cr
 Type: \tab Package\cr
-Version: \tab 1.2\cr
-Date: \tab 2009-07-26\cr
+Version: \tab 1.3\cr
+Date: \tab 2012-04-10\cr
 License: \tab GPL (>= 2) \cr
 LazyLoad: \tab yes\cr
 }
